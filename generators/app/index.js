@@ -2,56 +2,60 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var util = require('util');
 
-module.exports = yeoman.generators.Base.extend({
-  prompting: function () {
-    var done = this.async();
+var Generator = module.exports = function (args, options) {
+  yeoman.generators.Base.apply(this, arguments);
+};
 
-    // Have Yeoman greet the user.
+util.inherits(Generator, yeoman.generators.Base);
+
+Generator.prototype.welcome = function () {
+  if (!this.options['skip-welcome-message']) {
     this.log(yosay(
-      'Welcome to the slick ' + chalk.red('GeneratorAngularGulpBrowserify') + ' generator!'
+      [
+        chalk.red('Welcome!'),
+        chalk.yellow('You\'re using the fantastic generator for scaffolding an application with AngularJS, SASS, Gulp, and Browserify!')
+      ].join('\n')
     ));
+  }
+};
 
-    var prompts = [{
+Generator.prototype.askFor = function () {
+  var cb = this.async(),
+    prompts = [{
       type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
+      name: 'installNpmDep',
+      message: 'Would you like to install Node dependencies?',
       default: true
     }];
 
-    this.prompt(prompts, function (props) {
-      this.props = props;
-      // To access props later use this.props.someOption;
+  this.prompt(prompts, function (answers) {
+    this.installNpmDep = answers.installNpmDep;
+    cb();
+  }.bind(this));
+};
 
-      done();
-    }.bind(this));
-  },
+Generator.prototype.app = function () {
+  this.directory('app', 'app');
+  this.copy('.gitignore', '.gitignore');
+  this.copy('.jshintrc', '.jshintrc');
 
-  writing: {
-    app: function () {
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
-      );
-    },
+};
 
-    projectfiles: function () {
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
-      );
-    }
-  },
+Generator.prototype.test = function () {
+  this.directory('test', 'test');
+};
 
-  install: function () {
-    this.installDependencies();
+Generator.prototype.gulp = function () {
+  this.directory('gulp', 'gulp');
+  this.copy('gulpfile.js', 'gulpfile.js');
+};
+
+Generator.prototype.npm = function () {
+  this.copy('package.json', 'package.json');
+
+  if (this.installNpmDep) {
+    this.npmInstall();
   }
-});
+};
