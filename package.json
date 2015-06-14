@@ -1,10 +1,22 @@
 {
-  "name": "generator-generator-angular-gulp-browserify",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "name": "generator-angular-gulp-browserify",
+  "version": "0.0.1",
+  "description": "Yeoman generator for AngularJS with Gulp and Browserify",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "alferov/generator-generator-angular-gulp-browserify",
+  "keywords": [
+    "yeoman-generator",
+    "angular",
+    "angularjs",
+    "gulp",
+    "sass",
+    "browserify"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alferov/generator-angular-gulp-browserify.git"
+  },
+  "bugs": "https://github.com/alferov/generator-angular-gulp-browserify/issues",
   "author": {
     "name": "Philipp Alferov",
     "email": "philipp.alferov@gmail.com",
@@ -16,12 +28,9 @@
   "files": [
     "generators"
   ],
-  "keywords": [
-    "yeoman-generator"
-  ],
   "dependencies": {
-    "yeoman-generator": "^0.19.0",
     "chalk": "^1.0.0",
+    "yeoman-generator": "^0.19.0",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
