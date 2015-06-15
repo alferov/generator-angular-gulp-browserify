@@ -10,18 +10,18 @@
     "angularjs",
     "gulp",
     "sass",
-    "browserify"
+    "browserify",
+    "karma",
+    "jasmine"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/alferov/generator-angular-gulp-browserify.git"
   },
-  "bugs": "https://github.com/alferov/generator-angular-gulp-browserify/issues",
-  "author": {
-    "name": "Philipp Alferov",
-    "email": "philipp.alferov@gmail.com",
-    "url": "https://github.com/alferov"
+  "bugs": {
+    "url": "https://github.com/alferov/generator-angular-gulp-browserify/issues"
   },
+  "author": "Philipp Alferov <philipp.alferov@gmail.com> (https://github.com/alferov)",
   "scripts": {
     "test": "mocha"
   },
@@ -35,5 +35,9 @@
   },
   "devDependencies": {
     "mocha": "*"
+  },
+  "homepage": "https://github.com/alferov/generator-angular-gulp-browserify",
+  "directories": {
+    "test": "test"
   }
 }
