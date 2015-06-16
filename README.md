@@ -1,13 +1,19 @@
-# generator-angular-gulp-browserify [![Build Status](https://secure.travis-ci.org/alferov/generator-generator-angular-gulp-browserify.png?branch=master)](https://travis-ci.org/alferov/generator-angular-gulp-browserify)
+# generator-angular-gulp-browserify [![Build Status](https://travis-ci.org/alferov/generator-angular-gulp-browserify.svg?branch=master)](https://travis-ci.org/alferov/generator-angular-gulp-browserify)
 
 An [AngularJS](https://angularjs.org/) project generator for [Yeoman](http://yeoman.io). This generator is build on top of [angularjs-gulp-browserify-boilerplate](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate). It uses SASS, Gulp, and Browserify and utilizes [best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide) and Gulp best practices from [this resource](https://github.com/greypants/gulp-starter).
 
 ## Getting Started
 
-Install `yo`
+Install yeoman:
 
 ```bash
 npm install -g yo gulp
+```
+
+To install generator from npm, run:
+
+```bash
+npm install -g generator-angular-gulp-browserify
 ```
 
 Make a new directory, and `cd` into it:
@@ -16,7 +22,7 @@ Make a new directory, and `cd` into it:
 mkdir my-ng-project && cd $_
 ```
 
-To initialize generator, run
+To initialize generator, run:
 
 ```bash
 yo angular-gulp-browserify
@@ -24,7 +30,7 @@ yo angular-gulp-browserify
 
 ## Overview
 
-A full project description you can find in [official boilerplate readme](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate/blob/master/README.md).
+The complete project guide can be found in the [official boilerplate readme](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate/blob/master/README.md).
 
 ### Packages
 
