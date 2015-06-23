@@ -4,6 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var util = require('util');
 var fs = require('fs');
+var _s = require('underscore.string');
 
 var Generator = module.exports = function (args, options) {
   yeoman.generators.Base.apply(this, arguments);
@@ -84,9 +85,29 @@ Generator.prototype.gulp = function() {
 };
 
 Generator.prototype.npm = function() {
-  this.copy('package.json', 'package.json');
+  var prop;
+  var templateRoot = this.templatePath('');
+  var destinationRoot = this.destinationPath('');
+  var pkg = JSON.parse(fs.readFileSync(templateRoot + '/package.json'));
+  var exclude = [
+    'version',
+    'author',
+    'description',
+    'repository',
+    'private',
+    'engines'
+  ];
 
-  if (this.installNpmDep) {
-    this.npmInstall();
+  for (prop in pkg) {
+    if (exclude.indexOf(prop) >= 0 && pkg.hasOwnProperty(prop)) {
+      delete pkg[prop];
+    }
   }
+
+  pkg.name = _s.slugify(this.appname);
+
+  var json = JSON.stringify(pkg, null, 2);
+  var filename = destinationRoot + '/package.json';
+
+  fs.writeFileSync(filename, json);
 };

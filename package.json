@@ -34,7 +34,8 @@
     "yosay": "^1.0.2"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "underscore.string": "^3.1.1"
   },
   "homepage": "https://github.com/alferov/generator-angular-gulp-browserify",
   "directories": {
