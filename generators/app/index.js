@@ -25,18 +25,7 @@ Generator.prototype.welcome = function() {
 };
 
 Generator.prototype.askFor = function() {
-  var cb = this.async(),
-    prompts = [{
-      type: 'confirm',
-      name: 'installNpmDep',
-      message: 'Would you like to install Node dependencies?',
-      default: true
-    }];
 
-  this.prompt(prompts, function (answers) {
-    this.installNpmDep = answers.installNpmDep;
-    cb();
-  }.bind(this));
 };
 
 Generator.prototype.app = function() {
@@ -45,7 +34,7 @@ Generator.prototype.app = function() {
 };
 
 Generator.prototype.gitignore = function() {
-  var templateRoot = this.templatePath('');
+  var templateRoot = this.sourceRoot();
 
   if (fs.existsSync(templateRoot + '/.gitignore')) {
     this.copy('.gitignore', '.gitignore');
@@ -85,9 +74,8 @@ Generator.prototype.gulp = function() {
 };
 
 Generator.prototype.npm = function() {
-  var prop;
-  var templateRoot = this.templatePath('');
-  var destinationRoot = this.destinationPath('');
+  var templateRoot = this.sourceRoot();
+  var destinationRoot = this.destinationRoot();
   var pkg = JSON.parse(fs.readFileSync(templateRoot + '/package.json'));
   var exclude = [
     'version',
@@ -98,7 +86,7 @@ Generator.prototype.npm = function() {
     'engines'
   ];
 
-  for (prop in pkg) {
+  for (var prop in pkg) {
     if (exclude.indexOf(prop) >= 0 && pkg.hasOwnProperty(prop)) {
       delete pkg[prop];
     }
@@ -110,4 +98,6 @@ Generator.prototype.npm = function() {
   var filename = destinationRoot + '/package.json';
 
   fs.writeFileSync(filename, json);
+
+  this.npmInstall();
 };
