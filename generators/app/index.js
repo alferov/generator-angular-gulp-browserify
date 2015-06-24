@@ -6,7 +6,7 @@ var util = require('util');
 var fs = require('fs');
 var _s = require('underscore.string');
 
-var Generator = module.exports = function (args, options) {
+var Generator = module.exports = function() {
   yeoman.generators.Base.apply(this, arguments);
 };
 
