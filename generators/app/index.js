@@ -24,10 +24,6 @@ Generator.prototype.welcome = function() {
   }
 };
 
-Generator.prototype.askFor = function() {
-
-};
-
 Generator.prototype.app = function() {
   this.directory('app', 'app');
   this.copy('.jshintrc', '.jshintrc');
