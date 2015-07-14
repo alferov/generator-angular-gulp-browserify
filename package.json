@@ -1,6 +1,6 @@
 {
   "name": "generator-angular-gulp-browserify",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Yeoman generator for AngularJS with Gulp and Browserify",
   "license": "MIT",
   "main": "app/index.js",
