@@ -7,7 +7,7 @@ An [AngularJS](https://angularjs.org/) project generator for [Yeoman](http://yeo
 Install yeoman:
 
 ```bash
-npm install -g yo
+npm install -g yo gulp
 ```
 
 Install the generator:
@@ -28,11 +28,12 @@ To initialize the generator, run:
 yo angular-gulp-browserify
 ```
 
-Finally, run (may require installing Gulp globally `npm install gulp -g`):
+Finally, run:
 
 ```bash
 gulp dev
 ```
+
 Your browser will automatically be opened and directed to the browser-sync proxy address.
 
 Now that gulp dev is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the changes will be injected to any open browsers pointed at the proxy address.
