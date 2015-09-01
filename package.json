@@ -29,10 +29,11 @@
     "generators"
   ],
   "dependencies": {
-    "chalk": "^1.0.0",
-    "yeoman-generator": "^0.19.0",
-    "yosay": "^1.0.2",
-    "underscore.string": "^3.1.1"
+    "chalk": "^1.1.1",
+    "mocha": "^2.3.0",
+    "underscore.string": "^3.2.0",
+    "yeoman-generator": "^0.19.2",
+    "yosay": "^1.0.5"
   },
   "devDependencies": {
     "mocha": "*"

@@ -12,7 +12,7 @@ describe('angular with gulp and browserify generator', function () {
       .on('end', done);
   });
 
-  it('it should create files', function () {
+  it('it should create dotfiles files', function () {
 
     assert.file([
       'package.json',
