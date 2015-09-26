@@ -6,7 +6,7 @@ var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 
 describe('angular with gulp and browserify generator', function () {
-  before(function (done) {
+  before(function(done) {
     helpers.run(path.join(__dirname, '../generators/app'))
       .withOptions({ skipInstall: true })
       .on('end', done);
@@ -20,7 +20,6 @@ describe('angular with gulp and browserify generator', function () {
       '.jshintrc',
       '.gitignore'
     ]);
-
   });
 
   it('it should create nested files and folders', function () {

@@ -4,7 +4,9 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var util = require('util');
 var fs = require('fs');
+var path = require('path');
 var _s = require('underscore.string');
+var glob = require('glob');
 
 var Generator = module.exports = function() {
   yeoman.generators.Base.apply(this, arguments);
@@ -14,8 +16,7 @@ util.inherits(Generator, yeoman.generators.Base);
 
 Generator.prototype.welcome = function() {
   if (!this.options['skip-welcome-message']) {
-    this.log(yosay(
-      [
+    this.log(yosay([
         chalk.red('Welcome!'),
         chalk.yellow(['You\'re using the fantastic generator for scaffolding an',
         'application with AngularJS, SASS, Gulp, and Browserify!'].join('\s'))
@@ -24,9 +25,25 @@ Generator.prototype.welcome = function() {
   }
 };
 
-Generator.prototype.app = function() {
-  this.directory('app', 'app');
-  this.copy('.jshintrc', '.jshintrc');
+// Use custom method to copy all files from the root folder.
+// Yeoman's 'copy' method doesn't support
+Generator.prototype.copyAll = function() {
+  var templateRoot = this.sourceRoot();
+  var destinationRoot = this.destinationRoot();
+  var files = glob.sync('**', { dot: true, nodir: true, cwd: templateRoot });
+  var cp = this.copy;
+  var exclude = ['package.json', '.gitignore', '.npmignore'];
+
+  for (var i in files) {
+    var file = files[i];
+
+    if (exclude.indexOf(file) >= 0) {
+      continue;
+    }
+
+    var dest = path.join(destinationRoot, files[i]);
+    cp.call(this, path.join(templateRoot, files[i]), dest);
+  }
 };
 
 Generator.prototype.gitignore = function() {
@@ -43,36 +60,13 @@ Generator.prototype.gitignore = function() {
     this.copy('.npmignore', '.gitignore');
     return ;
   }
-
-  var output = this.destinationPath('.gitignore');
-  var content = ['.DS_Store', '# Logs', 'logs', '*.log', '# Runtime data', 'pids',
-    'lib-cov', '# Coverage directory used by tools like istanbul',
-    'coverage', '# Compiled binary addons (http://nodejs.org/api/addons.html)',
-    'build/Release', '# Dependency directories', 'node_modules',
-    'bower_components', '# Build files', 'build', 'templates.js', '#webstorm',
-    '.idea'
-  ].join('\n');
-
-  fs.writeFile(output, content, function(err) {
-    if(err) {
-      return console.log(err);
-    }
-  });
-};
-
-Generator.prototype.test = function() {
-  this.directory('test', 'test');
-};
-
-Generator.prototype.gulp = function() {
-  this.directory('gulp', 'gulp');
-  this.copy('gulpfile.js', 'gulpfile.js');
 };
 
 Generator.prototype.npm = function() {
   var templateRoot = this.sourceRoot();
   var destinationRoot = this.destinationRoot();
   var pkg = JSON.parse(fs.readFileSync(templateRoot + '/package.json'));
+
   var exclude = [
     'version',
     'author',
