@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var _s = require('underscore.string');
 var glob = require('glob');
+var npmName = require('npm-name');
 
 var Generator = module.exports = function() {
   yeoman.generators.Base.apply(this, arguments);
@@ -25,8 +26,56 @@ Generator.prototype.welcome = function() {
   }
 };
 
-// Use custom method to copy all files from the root folder.
-// Yeoman's 'copy' method doesn't support
+Generator.prototype.askForGeneratorName = function() {
+  var extractGeneratorName = function(appname) {
+    var match = appname.match(/^generator-(.+)/);
+
+    if (match && match.length === 2) {
+      return match[1].toLowerCase();
+    }
+
+    return appname;
+  };
+
+  var generatorName = extractGeneratorName(this.appname);
+  var done = this.async();
+
+  var prompts = [{
+    name: 'generatorName',
+    message: 'What\'s the base name of your app?',
+    default: generatorName
+  },{
+    type: 'confirm',
+    name: 'askNameAgain',
+    message: 'The name above already exists on npm, choose another?',
+    default: true,
+    when: function(answers) {
+      var done = this.async();
+      var name = 'generator-' + answers.generatorName;
+
+      var checkName = function(err, available) {
+        if (!available) {
+          done(true);
+        }
+
+        done(false);
+      };
+
+      npmName(name, checkName);
+    }
+  }];
+
+  this.prompt(prompts, function(props) {
+    if (props.askNameAgain) {
+      return this.askForGeneratorName.call(this);
+    }
+
+    this.generatorName = props.generatorName;
+    this.appname = _s.slugify('generator-' + this.generatorName);
+    done();
+  }.bind(this));
+};
+
 Generator.prototype.copyAll = function() {
   var templateRoot = this.sourceRoot();
   var destinationRoot = this.destinationRoot();
@@ -77,11 +126,11 @@ Generator.prototype.packageJSON = function() {
   var onPackageJsonSync = function(err, content) {
     var exclude = [
       'version',
-      'author',
       'description',
       'repository',
       'private',
-      'engines'
+      'name',
+      'engines',
     ];
 
     var pkg;
@@ -106,7 +155,7 @@ Generator.prototype.packageJSON = function() {
       }
     }
 
-    pkg.name = _s.slugify(this.appname);
+    pkg.name = this.appname;
 
     var json = JSON.stringify(pkg, null, 2);
     var filename = destinationRoot + '/package.json';
@@ -119,4 +168,4 @@ Generator.prototype.packageJSON = function() {
 
 Generator.prototype.npm = function() {
   this.npmInstall();
-}
+};
