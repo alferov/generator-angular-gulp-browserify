@@ -48,46 +48,75 @@ Generator.prototype.copyAll = function() {
 
 Generator.prototype.gitignore = function() {
   var templateRoot = this.sourceRoot();
+  var done = this.async();
 
-  if (fs.existsSync(templateRoot + '/.gitignore')) {
-    this.copy('.gitignore', '.gitignore');
-    return ;
-  }
+  var onGitignoreOpen = function(exists) {
+    if (exists) {
+      this.copy('.gitignore', '.gitignore');
+      done();
+    }
+  };
 
-  //If generator templates are served by npm (npm serves .gitignore as
-  //.npmignore), generator treats .npmignore as .gitignore
-  if (fs.existsSync(templateRoot + '/.npmignore')) {
-    this.copy('.npmignore', '.gitignore');
-    return ;
-  }
+  var onNpmignoreOpen = function(exists) {
+    if (exists) {
+      this.copy('.npmignore', '.gitignore');
+      done();
+    }
+  };
+
+  fs.exists(templateRoot + '/.gitignore', onGitignoreOpen.bind(this));
+  fs.exists(templateRoot + '/.npmignore', onNpmignoreOpen.bind(this));
+};
+
+Generator.prototype.packageJSON = function() {
+  var templateRoot = this.sourceRoot();
+  var destinationRoot = this.destinationRoot();
+  var packageJson = templateRoot + '/package.json';
+  var done = this.async();
+
+  var onPackageJsonSync = function(err, content) {
+    var exclude = [
+      'version',
+      'author',
+      'description',
+      'repository',
+      'private',
+      'engines'
+    ];
+
+    var pkg;
+
+    if (err) {
+      this.log.error('Could not open package.json for reading.', err);
+      done();
+      return;
+    }
+
+    try {
+      pkg = JSON.parse(content);
+    } catch (err) {
+      this.log.error('Could not parse package.json.', err);
+      done();
+      return;
+    }
+
+    for (var prop in pkg) {
+      if (exclude.indexOf(prop) >= 0 && pkg.hasOwnProperty(prop)) {
+        delete pkg[prop];
+      }
+    }
+
+    pkg.name = _s.slugify(this.appname);
+
+    var json = JSON.stringify(pkg, null, 2);
+    var filename = destinationRoot + '/package.json';
+
+    fs.writeFile(filename, json, done);
+  };
+
+  fs.readFile(packageJson, { encoding: 'utf-8' }, onPackageJsonSync.bind(this));
 };
 
 Generator.prototype.npm = function() {
-  var templateRoot = this.sourceRoot();
-  var destinationRoot = this.destinationRoot();
-  var pkg = JSON.parse(fs.readFileSync(templateRoot + '/package.json'));
-
-  var exclude = [
-    'version',
-    'author',
-    'description',
-    'repository',
-    'private',
-    'engines'
-  ];
-
-  for (var prop in pkg) {
-    if (exclude.indexOf(prop) >= 0 && pkg.hasOwnProperty(prop)) {
-      delete pkg[prop];
-    }
-  }
-
-  pkg.name = _s.slugify(this.appname);
-
-  var json = JSON.stringify(pkg, null, 2);
-  var filename = destinationRoot + '/package.json';
-
-  fs.writeFileSync(filename, json);
-
   this.npmInstall();
-};
+}
