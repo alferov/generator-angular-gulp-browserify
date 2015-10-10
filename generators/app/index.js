@@ -5,9 +5,7 @@ var yosay = require('yosay');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
-var _s = require('underscore.string');
 var glob = require('glob');
-var npmName = require('npm-name');
 
 var Generator = module.exports = function() {
   yeoman.generators.Base.apply(this, arguments);
@@ -27,51 +25,16 @@ Generator.prototype.welcome = function() {
 };
 
 Generator.prototype.askForGeneratorName = function() {
-  var extractGeneratorName = function(appname) {
-    var match = appname.match(/^generator-(.+)/);
-
-    if (match && match.length === 2) {
-      return match[1].toLowerCase();
-    }
-
-    return appname;
-  };
-
-  var generatorName = extractGeneratorName(this.appname);
   var done = this.async();
 
   var prompts = [{
-    name: 'generatorName',
-    message: 'What\'s the base name of your app?',
-    default: generatorName
-  },{
-    type: 'confirm',
-    name: 'askNameAgain',
-    message: 'The name above already exists on npm, choose another?',
-    default: true,
-    when: function(answers) {
-      var done = this.async();
-      var name = 'generator-' + answers.generatorName;
-
-      var checkName = function(err, available) {
-        if (!available) {
-          done(true);
-        }
-
-        done(false);
-      };
-
-      npmName(name, checkName);
-    }
+    name: 'appname',
+    message: 'What\'s the name of your app?',
+    default: 'app'
   }];
 
   this.prompt(prompts, function(props) {
-    if (props.askNameAgain) {
-      return this.askForGeneratorName.call(this);
-    }
-
-    this.generatorName = props.generatorName;
-    this.appname = _s.slugify('generator-' + this.generatorName);
+    this.appname = props.appname;
     done();
   }.bind(this));
 };
@@ -87,7 +50,7 @@ Generator.prototype.copyAll = function() {
     var file = files[i];
 
     if (exclude.indexOf(file) >= 0) {
-      continue;
+      continue ;
     }
 
     var dest = path.join(destinationRoot, files[i]);

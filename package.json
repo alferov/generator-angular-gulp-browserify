@@ -31,14 +31,11 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "glob": "^5.0.14",
-    "underscore.string": "^3.2.0",
     "yeoman-generator": "^0.19.2",
-    "yosay": "^1.0.5",
-    "npm-name": "^1.1.1"
+    "yosay": "^1.0.5"
   },
   "devDependencies": {
-    "mocha": "^2.3.0",
-    "mockery": "^1.4.0"
+    "mocha": "^2.3.0"
   },
   "homepage": "https://github.com/alferov/generator-angular-gulp-browserify",
   "directories": {
