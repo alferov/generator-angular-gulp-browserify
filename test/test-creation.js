@@ -23,7 +23,7 @@ describe('angular with gulp and browserify generator', function () {
 
     assert.file([
       'package.json',
-      'gulpfile.js',
+      'gulpfile.babel.js',
       '.jshintrc',
       '.gitignore'
     ]);
@@ -34,7 +34,7 @@ describe('angular with gulp and browserify generator', function () {
     assert.file([
       'app/index.html',
       'app/js/main.js',
-      'app/js/controllers/_index.js',
+      'app/js/controllers/index.js',
       'gulp/index.js',
       'gulp/tasks/browserify.js',
       'test/karma.conf.js',
