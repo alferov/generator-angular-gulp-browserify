@@ -23,7 +23,9 @@
   },
   "author": "Philipp Alferov <philipp.alferov@gmail.com> (https://github.com/alferov)",
   "scripts": {
-    "test": "mocha"
+    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git tag $(cat package.json | jq -r .version) && git push && git push --tags && npm publish",
+    "test": "mocha",
+    "tdd": "mocha -w"
   },
   "files": [
     "generators"
