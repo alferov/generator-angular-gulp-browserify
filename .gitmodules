@@ -1,3 +1,4 @@
 [submodule "generators/app/templates"]
-	path = generators/app/templates
-	url = https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git
+  path = generators/app/templates
+  url = https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git
+  fetchrecursesubmodules = true
