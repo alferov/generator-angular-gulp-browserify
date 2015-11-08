@@ -3,34 +3,17 @@
 An [AngularJS](https://angularjs.org/) project generator for [Yeoman](http://yeoman.io). This generator is build on top of [angularjs-gulp-browserify-boilerplate](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate). It uses SASS, Gulp, and Browserify and utilizes [best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide) and Gulp best practices from [this resource](https://github.com/greypants/gulp-starter).
 
 ## Getting Started
-
-Install yeoman:
-
 ```bash
-npm install -g yo gulp
-```
+# Install Yeoman, Gulp & the generator:
+npm install -g yo gulp generator-angular-gulp-browserify
 
-Install the generator:
+# Make a new directory, and 'cd' into it:
+mkdir my-project && cd $_
 
-```bash
-npm install -g generator-angular-gulp-browserify
-```
-
-Make a new directory, and `cd` into it:
-
-```bash
-mkdir my-ng-project && cd $_
-```
-
-To initialize the generator, run:
-
-```bash
+#To initialize the generator, run:
 yo angular-gulp-browserify
-```
 
-Finally, run:
-
-```bash
+#Finally, run:
 gulp dev
 ```
 
@@ -39,11 +22,9 @@ Your browser will automatically be opened and directed to the browser-sync proxy
 Now that gulp dev is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the changes will be injected to any open browsers pointed at the proxy address.
 
 ## Overview
-
 The complete project guide can be found in the [official boilerplate readme](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate/blob/master/README.md).
 
 ### Packages
-
 - [AngularJS](http://angularjs.org/)
 - [SASS](http://sass-lang.com/)
 - [Gulp](http://gulpjs.com/)
@@ -80,12 +61,10 @@ templates.js  (this is created via Gulp by compiling your views, and will not be
 - **Browser Sync**: Full-featured development web server with livereload and devices sync
 
 ### Testing
-
 This generator also includes a simple framework for unit and end-to-end (e2e) testing via [Karma](http://karma-runner.github.io/) and [Jasmine](http://jasmine.github.io/). In order to test AngularJS modules, the [angular.mocks](https://docs.angularjs.org/api/ngMock/object/angular.mock) module is used.
 
 All of the tests can be run at once with the command `gulp test`. However, the tests are broken up into two main categories:
 
 
 ## License
-
 MIT
