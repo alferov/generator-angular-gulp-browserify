@@ -17,6 +17,10 @@ var isObject = function(obj) {
   return obj !== null && typeof obj === 'object';
 };
 
+var isFunction = function(obj) {
+  return typeof obj === 'function';
+};
+
 // Perform a shallow copy of an object ignoring specified properties
 var copyExcept = function(obj, except) {
   var result = {};
@@ -34,6 +38,22 @@ var copyExcept = function(obj, except) {
 
   return result;
 };
+
+var executeIfNoMatch = function(obj, except, cb) {
+  if (!isArray(except) || !isObject(obj) || !isFunction(cb)) {
+    return ;
+  }
+
+  for (var prop in obj) {
+    var value = obj[prop];
+
+    if (except.indexOf(value) >= 0) {
+      continue ;
+    }
+
+    cb(value);
+  }
+}
 
 // Generator initialization
 var Generator = module.exports = function() {
@@ -60,6 +80,7 @@ Generator.prototype.askForGeneratorName = function() {
     message: 'What\'s the name of your app?',
     default: 'app'
   }];
+
   this.prompt(prompts, function(props) {
     this.appname = props.appname;
     done();
@@ -73,16 +94,10 @@ Generator.prototype.copyAll = function() {
   var cp = this.copy;
   var exclude = ['package.json', '.gitignore', '.npmignore'];
 
-  for (var i in files) {
-    var file = files[i];
-
-    if (exclude.indexOf(file) >= 0) {
-      continue ;
-    }
-
-    var dest = path.join(destinationRoot, files[i]);
-    cp.call(this, path.join(templateRoot, files[i]), dest);
-  }
+  executeIfNoMatch(files, exclude, function(value) {
+    var dest = path.join(destinationRoot, value);
+    cp.call(this, path.join(templateRoot, value), dest);
+  }.bind(this))
 };
 
 Generator.prototype.gitignore = function() {
@@ -120,7 +135,6 @@ Generator.prototype.packageJSON = function() {
       'private',
       'engines'
     ];
-
     var newValues = {
       name: this.appname,
       version: '1.0.0'

@@ -19,7 +19,7 @@ describe('angular with gulp and browserify generator', function () {
 
   it('it should create dotfiles files', function () {
     assert.file([
-      'package.json',ß
+      'package.json',
       'gulpfile.babel.js',
       '.jshintrc',
       '.gitignore'
