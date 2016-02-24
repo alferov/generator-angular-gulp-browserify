@@ -6,9 +6,7 @@ var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 
 describe('angular with gulp and browserify generator', function () {
-
   before(function(done) {
-
     helpers.run(path.join(__dirname, '../generators/app'))
       .withOptions({
         skipInstall: true,
@@ -20,9 +18,8 @@ describe('angular with gulp and browserify generator', function () {
   });
 
   it('it should create dotfiles files', function () {
-
     assert.file([
-      'package.json',
+      'package.json',ß
       'gulpfile.babel.js',
       '.jshintrc',
       '.gitignore'
@@ -30,7 +27,6 @@ describe('angular with gulp and browserify generator', function () {
   });
 
   it('it should create nested files and folders', function () {
-
     assert.file([
       'app/index.html',
       'app/js/main.js',
@@ -43,8 +39,8 @@ describe('angular with gulp and browserify generator', function () {
     ]);
   });
 
-  it('fills package.json with correct information', function () {
+  it('should generate correct package.json', function () {
     assert.fileContent('package.json',  /"name": "temp"/);
+    assert.noFileContent('package.json',  /"author":/);
   });
-
 });

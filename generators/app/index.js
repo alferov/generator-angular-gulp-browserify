@@ -6,7 +6,36 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var glob = require('glob');
+var objectAssign = require('object-assign');
 
+// Helpers
+var isArray = function(obj) {
+  return Array.isArray(obj);
+};
+
+var isObject = function(obj) {
+  return obj !== null && typeof obj === 'object';
+};
+
+// Perform a shallow copy of an object ignoring specified properties
+var copyExcept = function(obj, except) {
+  var result = {};
+
+  if (!isArray(except) || !isObject(obj)) {
+    return ;
+  }
+
+  for (var prop in obj) {
+    if (except.indexOf(prop) >= 0 && obj.hasOwnProperty(prop)) {
+      continue ;
+    }
+    result[prop] = obj[prop];
+  }
+
+  return result;
+};
+
+// Generator initialization
 var Generator = module.exports = function() {
   yeoman.generators.Base.apply(this, arguments);
 };
@@ -26,13 +55,11 @@ Generator.prototype.welcome = function() {
 
 Generator.prototype.askForGeneratorName = function() {
   var done = this.async();
-
   var prompts = [{
     name: 'appname',
     message: 'What\'s the name of your app?',
     default: 'app'
   }];
-
   this.prompt(prompts, function(props) {
     this.appname = props.appname;
     done();
@@ -88,39 +115,32 @@ Generator.prototype.packageJSON = function() {
 
   var onPackageJsonSync = function(err, content) {
     var exclude = [
-      'version',
-      'description',
+      'author',
       'repository',
       'private',
-      'name',
-      'engines',
+      'engines'
     ];
 
-    var pkg;
+    var newValues = {
+      name: this.appname,
+      version: '1.0.0'
+    }
 
     if (err) {
       this.log.error('Could not open package.json for reading.', err);
       done();
-      return;
+      return ;
     }
 
     try {
-      pkg = JSON.parse(content);
-    } catch (err) {
-      this.log.error('Could not parse package.json.', err);
+      var pkg = JSON.parse(content);
+    } catch(err) {
+      this.log.error('Could not parse package.json', err);
       done();
-      return;
     }
 
-    for (var prop in pkg) {
-      if (exclude.indexOf(prop) >= 0 && pkg.hasOwnProperty(prop)) {
-        delete pkg[prop];
-      }
-    }
-
-    pkg.name = this.appname;
-
-    var json = JSON.stringify(pkg, null, 2);
+    var copy = objectAssign(copyExcept(pkg, exclude), newValues);
+    var json = JSON.stringify(copy, null, 2);
     var filename = destinationRoot + '/package.json';
 
     fs.writeFile(filename, json, done);
