@@ -21,12 +21,21 @@ var isFunction = function(obj) {
   return typeof obj === 'function';
 };
 
+var betterTypeErrors = function (expected, obj) {
+  var type = typeof obj;
+  throw new TypeError('Expected ' + expected + ' but got ' +  type);
+};
+
 // Perform a shallow copy of an object ignoring specified properties
 var copyExcept = function(obj, except) {
   var result = {};
 
-  if (!isArray(except) || !isObject(obj)) {
-    return ;
+  if (!isArray(except)) {
+    betterTypeErrors('an array', obj);
+  }
+
+  if (!isObject(obj)) {
+    betterTypeErrors('an object', obj);
   }
 
   for (var prop in obj) {
@@ -39,20 +48,20 @@ var copyExcept = function(obj, except) {
   return result;
 };
 
-var executeIfNoMatch = function(obj, except, cb) {
-  if (!isArray(except) || !isObject(obj) || !isFunction(cb)) {
-    return ;
+var difference = function(compareWith, compareTo) {
+  if (!isArray(compareWith)) {
+    betterTypeErrors('an array', compareWith);
+  }
+  if (!isArray(compareTo)) {
+    betterTypeErrors('an array', compareTo);
   }
 
-  for (var prop in obj) {
-    var value = obj[prop];
-
-    if (except.indexOf(value) >= 0) {
-      continue ;
+  return compareWith.reduce(function(prev, val){
+    if (compareTo.indexOf(val) < 0) {
+      prev.push(val);
     }
-
-    cb(value);
-  }
+    return prev;
+  }, []);
 }
 
 // Generator initialization
@@ -93,11 +102,12 @@ Generator.prototype.copyAll = function() {
   var files = glob.sync('**', { dot: true, nodir: true, cwd: templateRoot });
   var cp = this.copy;
   var exclude = ['package.json', '.gitignore', '.npmignore'];
+  var diff = difference(files, exclude);
 
-  executeIfNoMatch(files, exclude, function(value) {
+  diff.forEach(function(value) {
     var dest = path.join(destinationRoot, value);
     cp.call(this, path.join(templateRoot, value), dest);
-  }.bind(this))
+  }.bind(this));
 };
 
 Generator.prototype.gitignore = function() {
@@ -150,6 +160,7 @@ Generator.prototype.packageJSON = function() {
       var pkg = JSON.parse(content);
     } catch(err) {
       this.log.error('Could not parse package.json', err);
+    } finally {
       done();
     }
 
