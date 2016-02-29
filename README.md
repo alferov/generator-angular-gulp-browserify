@@ -1,7 +1,12 @@
-# generator-angular-gulp-browserify [![Build Status](https://travis-ci.org/alferov/generator-angular-gulp-browserify.svg?branch=master)](https://travis-ci.org/alferov/generator-angular-gulp-browserify)
+# generator-angular-gulp-browserify
+
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][depstat-image]][depstat-url]
+
 > A Yeoman generator for creating modern web applications using Angular, SASS, Gulp, and Browserify
 
-### Packages
+## Packages
 - [AngularJS](http://angularjs.org/)
 - [SASS](http://sass-lang.com/)
 - [Gulp](http://gulpjs.com/)
@@ -50,7 +55,6 @@ templates.js  (this is created via gulp by compiling your views, and will not be
 ```
 
 ### Gulpfile features
-
 - **JSHint:** gulp is currently configured to run a JSHint task before processing any Javascript files. This will show any errors in your code in the console, but will not prevent compilation or minification from occurring.
 - **Browserify:** The main build process run on any Javascript files. This processes any of the `require('module')` statements, compiling the files as necessary.
 - **Babelify:** This uses [babelJS](https://babeljs.io/) to provide support for ES6+ features.
@@ -64,6 +68,14 @@ This generator also includes a simple framework for unit and end-to-end (e2e) te
 
 All of the tests can be run at once with the command `gulp test`. However, the tests are broken up into two main categories:
 
-
 ## License
-MIT
+MIT © [Philipp Alferov](https://github.com/alferov)
+
+[npm-url]: https://npmjs.org/package/generator-angular-gulp-browserify
+[npm-image]: https://img.shields.io/npm/v/generator-angular-gulp-browserify.svg?style=flat-square
+
+[travis-url]: https://travis-ci.org/alferov/generator-angular-gulp-browserify
+[travis-image]: https://img.shields.io/travis/alferov/generator-angular-gulp-browserify.svg?style=flat-square
+
+[depstat-url]: https://david-dm.org/alferov/generator-angular-gulp-browserify
+[depstat-image]: https://david-dm.org/alferov/generator-angular-gulp-browserify.svg?style=flat-square
