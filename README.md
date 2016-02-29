@@ -1,10 +1,15 @@
 # generator-angular-gulp-browserify [![Build Status](https://travis-ci.org/alferov/generator-angular-gulp-browserify.svg?branch=master)](https://travis-ci.org/alferov/generator-angular-gulp-browserify)
+> A Yeoman generator for creating modern web applications using Angular, SASS, Gulp, and Browserify
 
-An [AngularJS](https://angularjs.org/) project generator for [Yeoman](http://yeoman.io). This generator is build on top of [angularjs-gulp-browserify-boilerplate](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate). It uses SASS, Gulp, and Browserify and utilizes [best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide) and Gulp best practices from [this resource](https://github.com/greypants/gulp-starter).
+### Packages
+- [AngularJS](http://angularjs.org/)
+- [SASS](http://sass-lang.com/)
+- [Gulp](http://gulpjs.com/)
+- [Browserify](http://browserify.org/)
 
 ## Getting Started
 ```bash
-# Install Yeoman, Gulp & the generator:
+# Install Yeoman, gulp & the generator:
 npm install -g yo gulp generator-angular-gulp-browserify
 
 # Make a new directory, and 'cd' into it:
@@ -19,16 +24,10 @@ gulp dev
 
 Your browser will automatically be opened and directed to the browser-sync proxy address.
 
-Now that gulp dev is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the changes will be injected to any open browsers pointed at the proxy address.
+Now that gulp dev is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by gulp and the changes will be injected to any open browsers pointed at the proxy address.
 
 ## Overview
 The complete project guide can be found in the [official boilerplate readme](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate/blob/master/README.md).
-
-### Packages
-- [AngularJS](http://angularjs.org/)
-- [SASS](http://sass-lang.com/)
-- [Gulp](http://gulpjs.com/)
-- [Browserify](http://browserify.org/)
 
 ### Structure
 The AngularJS files are all located within `/app/js`, structured in the following manner:
@@ -47,12 +46,12 @@ constants.js  (any constant values that you want to make available to Angular)
 main.js       (the main file read by Browserify, also where the application is defined and bootstrapped)
 on_run.js     (any functions or logic that need to be executed on app.run)
 on_config.js  (all route definitions and any logic that need to be executed on app.config)
-templates.js  (this is created via Gulp by compiling your views, and will not be present beforehand)
+templates.js  (this is created via gulp by compiling your views, and will not be present beforehand)
 ```
 
 ### Gulpfile features
 
-- **JSHint:** Gulp is currently configured to run a JSHint task before processing any Javascript files. This will show any errors in your code in the console, but will not prevent compilation or minification from occurring.
+- **JSHint:** gulp is currently configured to run a JSHint task before processing any Javascript files. This will show any errors in your code in the console, but will not prevent compilation or minification from occurring.
 - **Browserify:** The main build process run on any Javascript files. This processes any of the `require('module')` statements, compiling the files as necessary.
 - **Babelify:** This uses [babelJS](https://babeljs.io/) to provide support for ES6+ features.
 - **Debowerify:** Parses `require()` statements in your code, mapping them to `bower_components` when necessary. This allows you to use and include bower components just as you would npm modules.
