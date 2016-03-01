@@ -76,7 +76,7 @@ Generator.prototype.copyAll = function() {
   var diff = _.difference(files, exclude);
 
   diff.forEach(function(value) {
-    this.copy(this.templatePath(value), this.destinationPath(value));
+    this.fs.copy(this.templatePath(value), this.destinationPath(value));
   }.bind(this));
 };
 
