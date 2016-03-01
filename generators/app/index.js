@@ -37,10 +37,10 @@ var copyExcept = function(obj, except) {
 
 // Generator initialization
 var Generator = module.exports = function() {
-  yeoman.generators.Base.apply(this, arguments);
+  yeoman.Base.apply(this, arguments);
 };
 
-util.inherits(Generator, yeoman.generators.Base);
+util.inherits(Generator, yeoman.Base);
 
 Generator.prototype.welcome = function() {
   if (this.options['skip-welcome-message']) {
