@@ -25,7 +25,8 @@
   "scripts": {
     "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | json version)\" && git tag $(cat package.json | json version) && git push && git push --tags && npm publish",
     "test": "mocha",
-    "tdd": "mocha -w"
+    "tdd": "mocha -w",
+    "update": "git submodule update --init --recursive && git submodule foreach --recursive git fetch && git submodule foreach git merge origin master"
   },
   "files": [
     "generators"
