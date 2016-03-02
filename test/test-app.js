@@ -21,7 +21,7 @@ describe('angular with gulp and browserify generator', function () {
     assert.file([
       'package.json',
       'gulpfile.babel.js',
-      '.jshintrc',
+      '.eslintrc',
       '.gitignore'
     ]);
   });
