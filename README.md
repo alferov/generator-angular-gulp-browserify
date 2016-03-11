@@ -1,10 +1,12 @@
-# generator-angular-gulp-browserify
+# Generator Angular Gulp Browserify
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][depstat-image]][depstat-url]
 
-> A Yeoman generator for creating modern web applications using Angular, SASS, Gulp, and Browserify
+> A Yeoman generator for creating modern web applications using Angular, SASS, Gulp, and Browserify.
+
+Generator-angular-gulp-browserify is build on top of [jakemmarsh/angularjs-gulp-browserify-boilerplate](https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate) and provides a convenient way to bootstrap the original boilerplate.
 
 ## Packages
 - [AngularJS](http://angularjs.org/)
