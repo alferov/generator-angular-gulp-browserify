@@ -51,7 +51,7 @@ Generator.prototype.welcome = function() {
   var text = [
     'You\'re using the fantastic generator for scaffolding an',
     'application with AngularJS, SASS, Gulp, and Browserify!'
-  ].join('\s');
+  ].join(' ');
 
   this.log(yosay([chalk.red(title), chalk.yellow(text)].join('\n')));
 };
